@@ -2,8 +2,8 @@ const swaggerAutogen = require('swagger-autogen')({openapi: '3.0.0'});
 
 const doc = {
   info: {
-    title: 'Contacts API',
-    description: 'List of people',
+    title: 'Accounts API',
+    description: 'List of accounts',
   },
   servers: [
     {
@@ -11,7 +11,7 @@ const doc = {
         description: "Local server"
     },
     {
-        url: "https://contactscrud.onrender.com/",
+        url: "https://accountsystem.onrender.com",
         description: "Live server"
     }
   ],
