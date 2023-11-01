@@ -4,24 +4,26 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "nodemon server.js",
-      "start-gendoc": "node swagger.js"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon server.js",
+        "start-gendoc": "node swagger.js"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "homepage": "https://github.com/nathanbirch/cse341-apiCourse-code#readme",
     "dependencies": {
-      "dotenv": "^16.3.1",
-      "express": "^4.17.3",
-      "mongodb": "^6.1.0",
-      "node.js": "0.0.1-security",
-      "swagger-autogen": "^2.23.6",
-      "swagger-ui-express": "^5.0.0"
+        "body-parser": "^1.20.2",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.17.3",
+        "express-validator": "^7.0.1",
+        "mongodb": "^6.1.0",
+        "node.js": "0.0.1-security",
+        "swagger-autogen": "^2.23.6",
+        "swagger-ui-express": "^5.0.0"
     },
     "devDependencies": {
-      "nodemon": "^2.0.15"
+        "nodemon": "^2.0.15"
     }
-  }
-  
+}

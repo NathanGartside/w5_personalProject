@@ -1,5 +1,6 @@
 const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
+const { body, validationResult } = require('express-validator');
 
 async function getAll(req, res) {
     // #swagger.description = 'Get all the accounts'
@@ -22,6 +23,7 @@ async function getSingle(req, res) {
 
 async function addAccount(req, res) {
     // #swagger.description = 'Add one account'
+
     const account = {username: req.body.username, password: req.body.password, email: req.body.email, first_name: req.body.first_name, birthday: req.body.birthday, last_name: req.body.last_name};
     const result = await mongodb.getDb().db().collection('accountInfo').insertOne(account);
     
