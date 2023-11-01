@@ -12,7 +12,7 @@ exports.newAccount = [
 
 exports.checkValidation = (req, res) => {
     const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.errors[0].msg });
-  }
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.errors[0].msg });
+    }
 }
