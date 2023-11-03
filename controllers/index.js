@@ -39,7 +39,7 @@ async function updateAccount(req, res) {
     const account = {username: req.body.username, password: req.body.password, email: req.body.email, first_name: req.body.first_name, birthday: req.body.birthday, last_name: req.body.last_name};
     const id = new ObjectId(req.params.id);
     const result = await mongodb.getDb().db().collection('accountInfo').replaceOne({_id:id}, account);
-    console.log(result)
+
     if(result.modifiedCount > 0) {
         res.status(204).send();
     } else {
@@ -58,4 +58,32 @@ async function deleteAccount(req, res) {
     }
 }
 
-module.exports = {getAll, getSingle, addAccount, updateAccount, deleteAccount};
+async function createNewMessage(req, res) {
+    // #swagger.description = 'Create new message'
+    const d = new Date()
+    const date = `${d.getMonth()+1}/${d.getDate()+1}/${d.getFullYear()}`;
+    console.log(date);
+    const message = {sender: req.body.sender, receiver: req.body.receiver, sender_email: req.body.sender_email, receiver_email: req.body.receiver_email, subject: req.body.subject, message: req.body.message, date: date};
+    const result = await mongodb.getDb().db().collection('messages').insertOne(message);
+
+    if(result.acknowledged) {
+        res.status(201).json(result);
+    } else {
+        res.status(500).json(result || 'Something went wrong')
+    }
+}
+
+async function getMessagesForUsername(req, res) {
+    // swagger.description = 'Get all messages for a specific username'
+
+    const receiver = req.params.receiver;
+    
+    const result = await mongodb.getDb().db().collection('messages').find({receiver:receiver});
+    result.toArray().then((lists) => {
+        res.setHeader('Content-Type', 'application/json');
+        res.status(200).json(lists); // we just need the first one (the only one)
+    });
+
+}
+
+module.exports = {getAll, getSingle, addAccount, updateAccount, deleteAccount, createNewMessage, getMessagesForUsername};

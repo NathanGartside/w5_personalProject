@@ -10,6 +10,15 @@ exports.newAccount = [
     check('last_name', 'Last Name must be a string').isString().notEmpty(),
 ]
 
+exports.newMessage = [
+    check('sender', 'Sender must be a string').isString().notEmpty(),
+    check('receiver', 'Receiver must be a string').isString().notEmpty(),
+    check('sender_email', 'Sender Email must be a email').isEmail().notEmpty(),
+    check('receiver_email', 'Receiver must be a email').isEmail().notEmpty(),
+    check('subject', 'Subject must be a string').isString().notEmpty(),
+    check('message', 'Message must be a string').isString().notEmpty(),
+]
+
 exports.checkValidation = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

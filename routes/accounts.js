@@ -8,7 +8,7 @@ routes.get('/:id', baseController.getSingle);
 
 routes.post('/', validator.newAccount, validator.checkValidation, baseController.addAccount);
 
-routes.put('/:id', baseController.updateAccount);
+routes.put('/:id', validator.newAccount, validator.checkValidation, baseController.updateAccount);
 
 routes.delete('/:id', baseController.deleteAccount);
 
