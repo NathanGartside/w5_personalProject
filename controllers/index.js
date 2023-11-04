@@ -72,7 +72,7 @@ async function createNewMessage(req, res) {
     const d = new Date()
     const date = `${d.getMonth()+1}/${d.getDate()+1}/${d.getFullYear()}`;
     console.log(date);
-    const message = {sender: req.body.sender, receiver: req.body.receiver, sender_email: req.body.sender_email, receiver_email: req.body.receiver_email, subject: req.body.subject, message: req.body.message, date: date};
+    const message = {sender: req.oidc.user.nickname, receiver: req.body.receiver, sender_email: req.oidc.user.email, receiver_email: req.body.receiver_email, subject: req.body.subject, message: req.body.message, date: date};
     const result = await mongodb.getDb().db().collection('messages').insertOne(message);
 
     if(result.acknowledged) {

@@ -189,13 +189,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "sender": {
-                    "example": "any"
-                  },
                   "receiver": {
-                    "example": "any"
-                  },
-                  "sender_email": {
                     "example": "any"
                   },
                   "receiver_email": {
