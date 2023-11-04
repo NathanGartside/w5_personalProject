@@ -5,20 +5,29 @@ const { body, validationResult } = require('express-validator');
 async function getAll(req, res) {
     // #swagger.description = 'Get all the accounts'
     const result = await mongodb.getDb().db().collection('accountInfo').find();
-    result.toArray().then((lists) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(lists); // we just need the first one (the only one)
-    });
+    if(result.acknowledged) {
+        result.toArray().then((lists) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json(lists); // we just need the first one (the only one)
+        });
+    } else {
+        res.status(500).json(result || 'Something went wrong');
+    }
 }
 
 async function getSingle(req, res) {
     // #swagger.description = 'Get one of the accounts'
     const id = new ObjectId(req.params.id);
     const result = await mongodb.getDb().db().collection('accountInfo').find({_id: id});
-    result.toArray().then((lists) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(lists[0]); // we just need the first one (the only one)
-    });
+    if(result.acknowledged) {
+        result.toArray().then((lists) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json(lists[0]); // we just need the first one (the only one)
+        });
+    } else {
+        res.status(500).json(result || 'Something went wrong');
+    }
+    
 }
 
 async function addAccount(req, res) {
@@ -79,11 +88,14 @@ async function getMessagesForUsername(req, res) {
     const receiver = req.params.receiver;
     
     const result = await mongodb.getDb().db().collection('messages').find({receiver:receiver});
-    result.toArray().then((lists) => {
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).json(lists); // we just need the first one (the only one)
-    });
-
+    if(result.acknowledged) {
+        result.toArray().then((lists) => {
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).json(lists); // we just need the first one (the only one)
+        });
+    } else {
+        res.status(500).json(result || 'Something went wrong')
+    }
 }
 
 module.exports = {getAll, getSingle, addAccount, updateAccount, deleteAccount, createNewMessage, getMessagesForUsername};
