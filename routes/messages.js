@@ -6,4 +6,6 @@ routes.post('/', validator.newMessage, validator.checkValidation, baseController
 
 routes.get('/:receiver', baseController.getMessagesForUsername);
 
+routes.delete('/:id', baseController.deleteMessage);
+
 module.exports = routes;

@@ -5,34 +5,34 @@ const { body, validationResult } = require('express-validator');
 async function getAll(req, res) {
     // #swagger.description = 'Get all the accounts'
     const result = await mongodb.getDb().db().collection('accountInfo').find();
-    if(result.acknowledged) {
-        result.toArray().then((lists) => {
+    result.toArray().then((lists) => {
+        if(lists) {
             res.setHeader('Content-Type', 'application/json');
-            res.status(200).json(lists); // we just need the first one (the only one)
-        });
-    } else {
-        res.status(500).json(result || 'Something went wrong');
-    }
+            res.status(200).json(lists);
+        } else {
+            res.status(500).json(result || 'Something went wrong');
+        }
+    });
+
 }
 
 async function getSingle(req, res) {
     // #swagger.description = 'Get one of the accounts'
     const id = new ObjectId(req.params.id);
     const result = await mongodb.getDb().db().collection('accountInfo').find({_id: id});
-    if(result.acknowledged) {
-        result.toArray().then((lists) => {
+    result.toArray().then((lists) => {
+        if(lists) {
             res.setHeader('Content-Type', 'application/json');
             res.status(200).json(lists[0]); // we just need the first one (the only one)
-        });
-    } else {
+        } else {
         res.status(500).json(result || 'Something went wrong');
-    }
-    
+        }
+    });
 }
 
 async function addAccount(req, res) {
     // #swagger.description = 'Add one account'
-
+    console.log('test')
     const account = {username: req.body.username, password: req.body.password, email: req.body.email, first_name: req.body.first_name, birthday: req.body.birthday, last_name: req.body.last_name};
     const result = await mongodb.getDb().db().collection('accountInfo').insertOne(account);
     
@@ -63,7 +63,7 @@ async function deleteAccount(req, res) {
     if (result.deletedCount > 0) {
         res.status(204).send();
     } else {
-        res.status(500).json(response.error || 'Some error occurred while deleting the contact.');
+        res.status(500).json(result.error || 'Some error occurred while deleting the contact.');
     }
 }
 
@@ -86,16 +86,26 @@ async function getMessagesForUsername(req, res) {
     // swagger.description = 'Get all messages for a specific username'
 
     const receiver = req.params.receiver;
-    
     const result = await mongodb.getDb().db().collection('messages').find({receiver:receiver});
-    if(result.acknowledged) {
-        result.toArray().then((lists) => {
+    result.toArray().then((lists) => {
+        if(lists) {
             res.setHeader('Content-Type', 'application/json');
-            res.status(200).json(lists); // we just need the first one (the only one)
-        });
+            res.status(200).json(lists);
+        } else {
+            res.status(500).json(result || 'Something went wrong')
+        }
+    });
+}
+
+async function deleteMessage(req, res) {
+    // #swagger.description = 'Delete one message'
+    const id = new ObjectId(req.params.id);
+    const result = await mongodb.getDb().db().collection('messages').deleteOne({_id:id});
+    if (result.deletedCount > 0) {
+        res.status(204).send();
     } else {
-        res.status(500).json(result || 'Something went wrong')
+        res.status(500).json(result.error || 'Some error occurred while deleting the message.');
     }
 }
 
-module.exports = {getAll, getSingle, addAccount, updateAccount, deleteAccount, createNewMessage, getMessagesForUsername};
+module.exports = {getAll, getSingle, addAccount, updateAccount, deleteAccount, createNewMessage, getMessagesForUsername, deleteMessage};
