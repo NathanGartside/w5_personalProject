@@ -11,9 +11,7 @@ exports.newAccount = [
 ]
 
 exports.newMessage = [
-    check('sender', 'Sender must be a string').isString().notEmpty(),
     check('receiver', 'Receiver must be a string').isString().notEmpty(),
-    check('sender_email', 'Sender Email must be a email').isString().notEmpty(),
     check('receiver_email', 'Receiver must be a email').isString().notEmpty(),
     check('subject', 'Subject must be a string').isString().notEmpty(),
     check('message', 'Message must be a string').isString().notEmpty()
