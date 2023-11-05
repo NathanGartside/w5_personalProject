@@ -16,20 +16,6 @@ async function getAll(req, res) {
 
 }
 
-async function getSingle(req, res) {
-    // #swagger.description = 'Get one of the accounts'
-    const id = new ObjectId(req.params.id);
-    const result = await mongodb.getDb().db().collection('accountInfo').find({_id: id});
-    result.toArray().then((lists) => {
-        if(lists) {
-            res.setHeader('Content-Type', 'application/json');
-            res.status(200).json(lists[0]); // we just need the first one (the only one)
-        } else {
-        res.status(500).json(result || 'Something went wrong');
-        }
-    });
-}
-
 async function addAccount(req, res) {
     // #swagger.description = 'Add one account'
     console.log('test')
@@ -108,4 +94,4 @@ async function deleteMessage(req, res) {
     }
 }
 
-module.exports = {getAll, getSingle, addAccount, updateAccount, deleteAccount, createNewMessage, getMessagesForUsername, deleteMessage};
+module.exports = {getAll, addAccount, updateAccount, deleteAccount, createNewMessage, getMessagesForUsername, deleteMessage};
